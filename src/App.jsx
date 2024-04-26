@@ -1,9 +1,14 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 
 import './App.css'
+import Table from './components/Table'
+
+// NEXT: SEARCH COMPONENT TO FILTER COUNTRIES, THEN ORDERING TABS ON TABLE HEADERS
 
 const URL = "https://restcountries.com/v3.1/all"
+
+let tableHeaders = ['Name', 'Capital', 'Flag', 'Region', 'Area', 'Population', 'Start of Week']
 
 function App() {
 
@@ -21,32 +26,16 @@ function App() {
 
   }
 
+  useEffect(() => {
+    fetchCountries()
+  }, [])
+
   return (
     <>
       <h2>Country Search</h2>
-      <button onClick={fetchCountries}>Fetch Countries</button>
-      <table>
-        <th>Name</th>
-        <th>Capital</th>
-        <th>Flag</th>
-        <th>Region</th>
-        <th>Area</th>
-        <th>Population</th>
-        <th>Start of Week</th>
-        {countries.map(country => {
-          return (
-            <tr>
-              <td>{country.name.common}</td>
-              <td>{country.capital}</td>
-              <td>{country.flag}</td>
-              <td>{country.region}</td>
-              <td>{country.area}sq km</td>
-              <td>{country.population}</td>
-              <td>{country.startOfWeek}</td>
-            </tr>
-          )
-        })}
-      </table>
+      {/* <button onClick={fetchCountries}>Fetch Countries</button> */}
+      {countries.length === 0 && <p>Loading...</p>}
+      <Table countries={countries} headers={tableHeaders} />
     </>
   )
 }
