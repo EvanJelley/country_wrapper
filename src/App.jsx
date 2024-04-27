@@ -30,10 +30,24 @@ function App() {
     fetchCountries()
   }, [])
 
+  let [searchTerm, setSearchTerm] = useState('')
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value)
+  }
+
+  if (searchTerm.length > 0) {
+    countries = countries.filter(country => 
+      country.name.common.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      country.region.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      typeof country.capital === 'object' && country.capital[0].toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  }
+
   return (
     <>
       <h2>Country Search</h2>
-      {/* <button onClick={fetchCountries}>Fetch Countries</button> */}
+      Search: <input type="text" placeholder="A country, capital, or region" onChange={handleSearch} />
       {countries.length === 0 && <p>Loading...</p>}
       <Table countries={countries} headers={tableHeaders} />
     </>
