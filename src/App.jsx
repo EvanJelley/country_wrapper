@@ -18,12 +18,10 @@ function App() {
 
     try {
       const response = await axios.get(URL)
-      console.log(response.data)
       setCountries(response.data)
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
-
   }
 
   useEffect(() => {
@@ -48,7 +46,7 @@ function App() {
     <>
       <h2>Country Search</h2>
       Search: <input type="text" placeholder="A country, capital, or region" onChange={handleSearch} />
-      {countries.length === 0 && <p>Loading...</p>}
+      {countries.length === 0 && searchTerm.length == 0 && <p>Loading...</p>}
       <Table countries={countries} headers={tableHeaders} />
     </>
   )

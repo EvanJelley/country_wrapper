@@ -29,7 +29,27 @@ table tr:nth-child(even) {
 table th {
   padding-top: 12px;
   padding-bottom: 12px;
-  text-align: left;
+  text-align: center;
   background-color: #4CAF50;
   color: white;
+}
+
+.headerButton {
+  background-color: inherit;
+  border: none;
+  color: inherit;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.headerButton:hover {
+  color: #dacccc;
+}
+
+.headerButton:focus {
+  outline: none;
+  border: none;
 }
