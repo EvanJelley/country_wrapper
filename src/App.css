@@ -5,6 +5,8 @@
   text-align: center;
 }
 
+/* Table */
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -52,4 +54,16 @@ table th {
 .headerButton:focus {
   outline: none;
   border: none;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+/* Sidedar */
+
+.sidebar {
+  border: 1px solid #cfcece;
+  padding: 20px;
+  margin-top: 4rem;
 }

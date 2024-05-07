@@ -1,6 +1,14 @@
 import lodash from 'lodash'
 import { useEffect, useState } from 'react'
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function popDensity (country) {
+    return (country.population / country.area).toFixed(2)
+}
+
 
 const SORTS = {
     NONE: list => list,
@@ -14,14 +22,16 @@ const SORTS = {
     AREADESC: list => lodash.orderBy(list, ['area'], ['desc']),
     POPULATIONASC: list => lodash.orderBy(list, ['population'], ['asc']),
     POPULATIONDESC: list => lodash.orderBy(list, ['population'], ['desc']),
+    POPULATION_DENSITYASC: list => lodash.orderBy(list, [country => country.population / country.area], ['asc']),
+    POPULATION_DENSITYDESC: list => lodash.orderBy(list, [country => country.population / country.area], ['desc']),
 };
 
 const Table = ({ countries, headers }) => {
 
-    let [sortKey, setSortKey] = useState('NAMEASC')
+    let [sortKey, setSortKey] = useState('NONE')
 
     const handleSort = (e) => {
-        let key = sortKey == e.target.innerText.toUpperCase() + 'ASC' ? e.target.innerText.toUpperCase() + 'DESC' : e.target.innerText.toUpperCase() + 'ASC'
+        let key = sortKey == e.target.innerText.toUpperCase().replace(' ', '_') + 'ASC' ? e.target.innerText.toUpperCase().replace(' ', '_') + 'DESC' : e.target.innerText.toUpperCase().replace(' ', '_') + 'ASC'
         return setSortKey(key)
     }
 
@@ -37,22 +47,23 @@ const Table = ({ countries, headers }) => {
                 )}
             </tr>
             {sortedCountries.map(country => {
-                return <Country country={country} />
+                return <CountryDataRow country={country} />
             })}
         </table>
     )
 }
 
-const Country = ({ country }) => {
+const CountryDataRow = ({ country }) => {
     return (
         <tr>
             <td>{country.name.common}</td>
             <td>{country.capital}</td>
             <td>{country.flag}</td>
             <td>{country.region}</td>
-            <td>{(country.area || 0).toLocaleString()} sq km</td>
+            <td>{(country.area || 0).toLocaleString()} km&sup2;</td>
             <td>{(country.population || 0).toLocaleString()}</td>
-            <td>{country.startOfWeek}</td>
+            <td>{popDensity(country)}/km&sup2;</td>
+            <td>{capitalizeFirstLetter(country.startOfWeek)}</td>
         </tr>
     )
 }
