@@ -4,6 +4,7 @@ import lodash from 'lodash'
 
 import './App.css'
 import Table from './components/Table'
+import SideBar from './components/Sidebar'
 import { set } from 'lodash'
 
 // NEXT: SEARCH COMPONENT TO FILTER COUNTRIES, THEN ORDERING TABS ON TABLE HEADERS
@@ -78,7 +79,7 @@ function App() {
     saturday: () => {
       setCountries(countriesList.filter(country => country.startOfWeek === 'saturday'))
     },
-    tenLargestArea: () => { 
+    tenLargestArea: () => {
       setCountries(lodash.orderBy(countriesList, ['area'], ['desc']).slice(0, 10))
     },
     twentyFiveLargestArea: () => {
@@ -136,10 +137,13 @@ function App() {
 
   return (
     <>
-      <div className='nav'>
-        <h3>Country Search</h3>
-      </div>
-      <div className='container'>
+      <nav className='navbar'>
+        <h3 class="navbar-brand">Country Search</h3>
+        <form class="form-inline">
+          <input class="nav-item search-bar" type="text" placeholder="search" onChange={handleSearch} />
+        </form>
+      </nav>
+      <div className='container mx-2'>
         <div className='row'>
           <div className='col-12 col-md-2'>
             <div className='sidebar'>
@@ -159,47 +163,5 @@ function App() {
   )
 }
 
-const SideBar = ({ handlers, searchHandler }) => {
-  return (
-    <div>
-      Search: <input type="text" placeholder="A country, capital, or region" onChange={searchHandler} />
-      <br />
-      <h3>Common Queries</h3>
-      <button onClick={handlers.all}>All Countries</button>
-      <h4>Regions</h4>
-      <button onClick={handlers.europe}>Europe</button>
-      <button onClick={handlers.asia}>Asia</button>
-      <button onClick={handlers.africa}>Africa</button>
-      <button onClick={handlers.americas}>Americas</button>
-      <button onClick={handlers.oceania}>Oceania</button>
-      <button onClick={handlers.antarctic}>Antarctic</button>
-      <h4>Area</h4>
-      <button onClick={handlers.tenLargestArea}>10 Largest Areas</button>
-      <button onClick={handlers.twentyFiveLargestArea}>25 Largest Areas</button>
-      <button onClick={handlers.fiftyLargestArea}>50 Largest Areas</button>
-      <button onClick={handlers.tenSmallestArea}>10 Smallest Areas</button>
-      <button onClick={handlers.twentyFiveSmallestArea}>25 Smallest Areas</button>
-      <button onClick={handlers.fiftySmallestArea}>50 Smallest Areas</button>
-      <h4>Population</h4>
-      <button onClick={handlers.tenLargestPop}>10 Largest Populations</button>
-      <button onClick={handlers.twentyFiveLargestPop}>25 Largest Populations</button>
-      <button onClick={handlers.fiftyLargestPop}>50 Largest Populations</button>
-      <button onClick={handlers.tenSmallestPop}>10 Smallest Populations</button>
-      <button onClick={handlers.twentyFiveSmallestPop}>25 Smallest Populations</button>
-      <button onClick={handlers.fiftySmallestPop}>50 Smallest Populations</button>
-      <h4>Population Density</h4>
-      <button onClick={handlers.tenHighestPopDensity}>10 Highest Populations</button>
-      <button onClick={handlers.twentyFiveHighestPopDensity}>25 Highest Populations</button>
-      <button onClick={handlers.fiftyHighestPopDensity}>50 Highest Populations</button>
-      <button onClick={handlers.tenLowestPopDensity}>10 Lowest Populations</button>
-      <button onClick={handlers.twentyFiveLowestPopDensity}>25 Lowest Populations</button>
-      <button onClick={handlers.fiftyLowestPopDensity}>50 Lowest Populations</button>
-      <h4>Start of the Week</h4>
-      <button onClick={handlers.saturday}>Saturday</button>
-      <button onClick={handlers.sunday}>Sunday</button>
-      <button onClick={handlers.monday}>Monday</button>
-    </div>
-  )
-}
 
 export default App

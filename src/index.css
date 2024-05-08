@@ -1,3 +1,12 @@
+/* Colors
+    - Dark: #244855
+    - Red: #e64833
+    - Brown: #874F41
+    - Blue: #90AEAD
+    - Tan: #FBE9D0
+  */
+
+/* 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -12,6 +21,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+
 
 a {
   font-weight: 500;
@@ -65,4 +76,4 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
+} */
