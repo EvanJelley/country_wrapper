@@ -138,9 +138,9 @@ function App() {
   return (
     <>
       <nav className='navbar'>
-        <h3 class="navbar-brand">Country Search</h3>
-        <form class="form-inline">
-          <input class="nav-item search-bar" type="text" placeholder="search" onChange={handleSearch} />
+        <h3 className="navbar-brand">Country Search</h3>
+        <form className="form-inline">
+          <input className="nav-item search-bar" type="text" placeholder="search" onChange={handleSearch} />
         </form>
       </nav>
       <div className='container mx-2'>
