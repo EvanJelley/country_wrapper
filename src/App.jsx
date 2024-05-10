@@ -135,14 +135,25 @@ function App() {
     },
   }
 
+  let [about, setAbout] = useState(false)
+
+  const handleAbout = () => {
+    about ? document.body.style.overflow = 'auto' : document.body.style.overflow = 'hidden'
+    setAbout(!about)
+  }
+
   return (
     <>
       <nav className='navbar'>
+        <div className="nav-item">
+          <button id="about" onClick={handleAbout}>About</button>
+        </div>
         <h3 className="navbar-brand">Country Search</h3>
-        <form className="form-inline">
+        <form className="form-inline search-nav">
           <input className="nav-item search-bar" type="text" placeholder="search" onChange={handleSearch} />
         </form>
       </nav>
+      {about && <PopUpWindow content={<About />} handleClosePopUp={handleAbout} />}
       <div className='container mx-2'>
         <div className='row'>
           <div className='col-12 col-md-2'>
@@ -151,7 +162,7 @@ function App() {
             </div>
           </div>
           <div className='col-12 col-md-10'>
-            <h2>Countries</h2>
+            <h2 id="table-title">Country List</h2>
             {countries.length === 0 && searchTerm.length == 0 && <p>Loading...</p>}
             <div className='table-responsive'>
               <Table countries={countries} headers={tableHeaders} />
@@ -160,6 +171,32 @@ function App() {
         </div>
       </div>
     </>
+  )
+}
+
+const PopUpWindow = ({ content, handleClosePopUp }) => {
+  return (
+    <div className='overlay' onClick={handleClosePopUp}>
+      <div className='popUpWindow'>
+        <p><button onClick={handleClosePopUp} className='countryDetailBackButton'>&#8592;Back</button></p>
+        {content}
+      </div>
+    </div>
+  )
+}
+
+const About = () => {
+  return (
+    <div className="about-content">
+      <h2>About This Project</h2>
+      <div className='about-text'>
+        <p>Welcome to the Country Data Explorer! This project is designed to showcase the abilities of a budding web developer in utilizing modern technologies to create dynamic and responsive web applications.</p>
+        <p>At the heart of this project is the integration of a REST API to fetch and display data about various countries. By leveraging the Country REST API, this application allows users to explore detailed information about different nations, enhancing their understanding of the world.</p>
+        <p>Built with the React framework, the Country Data Explorer exemplifies the use of contemporary web development practices, including the use of functional components, hooks, and state management. This project not only serves as a practical application of these concepts but also as a testament to the power of integrating external APIs into a React-based architecture.</p>
+        <p>For more details, dive into the code on GitHub: <a href="https://github.com/EvanJelley/country_wrapper">Country Data Explorer Repository</a></p>
+      </div>
+    </div>
+
   )
 }
 

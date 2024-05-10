@@ -81,22 +81,25 @@ const Table = ({ countries, headers }) => {
 
 const CountryDetail = ({ country, handleClosePopUp }) => {
     return (
-        <div className='countryDetail'>
+        <div className='popUpWindow'>
             <p><button onClick={handleClosePopUp} className='countryDetailBackButton'>&#8592;Back</button></p>
             <div className='row'>
                 <div className='col-12 col-md-6'>
                     <div className='countryDetailContent'>
                         <h3>{country.name.common}</h3>
-                        <p>
-                            <span className="countryDetailLabel">Capital{country.capital.length > 1 ? 's' : ''}:</span> {country.capital.length < 2 ? country.capital
-                            : country.capital.map((capital, index) => {
-                                if (index === country.capital.length - 1) {
-                                    return capital;
-                                } else {
-                                    return capital + ", ";
-                                }
-                            })}
-                        </p>
+                        {country.capital
+                            ? <p>
+                                <span className="countryDetailLabel">Capital{country.capital.length > 1 ? 's' : ''}:</span> {country.capital.length < 2 ? country.capital
+                                    : country.capital.map((capital, index) => {
+                                        if (index === country.capital.length - 1) {
+                                            return capital;
+                                        } else {
+                                            return capital + ", ";
+                                        }
+                                    })}
+                            </p>
+                            : <p><span className="countryDetailLabel">Capital:</span>None</p>
+                        }
                         <p><span className="countryDetailLabel">Coordinates:</span> {Math.abs(Number(country.latlng[0]).toFixed(2))}&deg;
                             {Number(country.latlng[1]) > 0 ? 'N ' : 'S '}
                             {Math.abs(Number(country.latlng[1]).toFixed(2))}&deg;
@@ -120,27 +123,32 @@ const CountryDetail = ({ country, handleClosePopUp }) => {
                             </p>
                             : <p><span className="countryDetailLabel">Borders:</span> None</p>}
                         <p><span className="countryDetailLabel">Area:</span> {(country.area || 0).toLocaleString()} km<sup>2</sup></p>
-                        <p><span className="countryDetailLabel">Languages:</span> {Object.values(country.languages).map((language, index) => {
-                            if (index === Object.values(country.languages).length - 1) {
-                                return language;
-                            } else {
-                                return language + ", ";
-                            }
-                        })}
-                        </p>
+                        {country.languages
+                            ? <p><span className="countryDetailLabel">Languages:</span> {Object.values(country.languages).map((language, index) => {
+                                if (index === Object.values(country.languages).length - 1) {
+                                    return language;
+                                } else {
+                                    return language + ", ";
+                                }
+                            })}
+                            </p>
+                            : <p><span className="countryDetailLabel">Languages:</span> None</p>
+                        }
                         <p><span className="countryDetailLabel">Population:</span> {(country.population || 0).toLocaleString()}</p>
                         <p><span className="countryDetailLabel">Population Density:</span> {popDensity(country)} people/km<sup>2</sup></p>
                         <p><span className="countryDetailLabel">Independent:</span> {country.independent ? 'Yes' : 'No'}</p>
                         <p><span className="countryDetailLabel">UN Member:</span> {country.unMember ? 'Yes' : 'No'}</p>
-                        <p><span className='countryDetailLabel'>{Object.values(country.currencies).length > 1 ? 'Currencies: ' : 'Currency: '}</span>
-                            {Object.values(country.currencies).map((currency, index) => {
-                                if (index === Object.values(country.currencies).length - 1) {
-                                    return currency.name;
-                                } else {
-                                    return currency.name + ", ";
-                                }
-                            })}
-                        </p>
+                        {country.currencies
+                            ? <p><span className='countryDetailLabel'>{Object.values(country.currencies).length > 1 ? 'Currencies: ' : 'Currency: '}</span>
+                                {Object.values(country.currencies).map((currency, index) => {
+                                    if (index === Object.values(country.currencies).length - 1) {
+                                        return currency.name;
+                                    } else {
+                                        return currency.name + ", ";
+                                    }
+                                })}
+                            </p>
+                            : <p><span className='countryDetailLabel'>Currency:</span> None</p>}
                     </div>
                 </div>
                 <div className='col-12 col-md-6'>
@@ -155,6 +163,17 @@ const CountryDetail = ({ country, handleClosePopUp }) => {
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    )
+}
+
+const PopUpWindow = ({ content, handleClosePopUp}) => {
+    return (
+        <div className='overlay' onClick={handleClosePopUp}>
+            <div className='popUpWindow'>
+                <p><button onClick={handleClosePopUp} className='countryDetailBackButton'>&#8592;Back</button></p>
+                {content}
             </div>
         </div>
     )
