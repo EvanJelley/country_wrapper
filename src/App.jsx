@@ -5,6 +5,7 @@ import lodash from 'lodash'
 import './App.css'
 import Table from './components/Table'
 import SideBar from './components/Sidebar'
+import PopUpWindow from './components/PopUp'
 import { set } from 'lodash'
 
 // NEXT: SEARCH COMPONENT TO FILTER COUNTRIES, THEN ORDERING TABS ON TABLE HEADERS
@@ -171,17 +172,6 @@ function App() {
         </div>
       </div>
     </>
-  )
-}
-
-const PopUpWindow = ({ content, handleClosePopUp }) => {
-  return (
-    <div className='overlay' onClick={handleClosePopUp}>
-      <div className='popUpWindow'>
-        <p><button onClick={handleClosePopUp} className='countryDetailBackButton'>&#8592;Back</button></p>
-        {content}
-      </div>
-    </div>
   )
 }
 

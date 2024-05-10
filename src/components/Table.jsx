@@ -1,5 +1,7 @@
 import lodash from 'lodash'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+
+import PopUpWindow from './PopUp';
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -57,7 +59,7 @@ const Table = ({ countries, headers }) => {
 
     return (
         <>
-            {countryToDetail && <div className="overlay" onClick={handleCloseCountryDetail}></div>}
+            {countryToDetail && <PopUpWindow content={<CountryDetail country={countryToDetail} />} handleClosePopUp={handleCloseCountryDetail} />}
             <table>
                 <thead>
                     <tr>
@@ -74,106 +76,91 @@ const Table = ({ countries, headers }) => {
                     })}
                 </tbody>
             </table>
-            {countryToDetail && <CountryDetail country={countryToDetail} handleClosePopUp={handleCloseCountryDetail} />}
         </>
     )
 }
 
-const CountryDetail = ({ country, handleClosePopUp }) => {
+const CountryDetail = ({ country }) => {
     return (
-        <div className='popUpWindow'>
-            <p><button onClick={handleClosePopUp} className='countryDetailBackButton'>&#8592;Back</button></p>
-            <div className='row'>
-                <div className='col-12 col-md-6'>
-                    <div className='countryDetailContent'>
-                        <h3>{country.name.common}</h3>
-                        {country.capital
-                            ? <p>
-                                <span className="countryDetailLabel">Capital{country.capital.length > 1 ? 's' : ''}:</span> {country.capital.length < 2 ? country.capital
-                                    : country.capital.map((capital, index) => {
-                                        if (index === country.capital.length - 1) {
-                                            return capital;
-                                        } else {
-                                            return capital + ", ";
-                                        }
-                                    })}
-                            </p>
-                            : <p><span className="countryDetailLabel">Capital:</span>None</p>
-                        }
-                        <p><span className="countryDetailLabel">Coordinates:</span> {Math.abs(Number(country.latlng[0]).toFixed(2))}&deg;
-                            {Number(country.latlng[1]) > 0 ? 'N ' : 'S '}
-                            {Math.abs(Number(country.latlng[1]).toFixed(2))}&deg;
-                            {Number(country.latlng[0]) > 0 ? 'E' : 'W'}
-                        </p>
-                        <p><span className="countryDetailLabel">Continent{country.continents.length > 1 ? 's' : ''}:</span> {country.continents.map((continent, index) => {
-                            if (index === country.continents.length - 1) {
-                                return continent;
-                            } else {
-                                return continent + ", ";
-                            }
-                        })}</p>
-                        {country.borders
-                            ? <p><span className="countryDetailLabel">Borders:</span> {country.borders.map((border, index) => {
-                                if (index === country.borders.length - 1) {
-                                    return border;
-                                } else {
-                                    return border + ", ";
-                                }
-                            })}
-                            </p>
-                            : <p><span className="countryDetailLabel">Borders:</span> None</p>}
-                        <p><span className="countryDetailLabel">Area:</span> {(country.area || 0).toLocaleString()} km<sup>2</sup></p>
-                        {country.languages
-                            ? <p><span className="countryDetailLabel">Languages:</span> {Object.values(country.languages).map((language, index) => {
-                                if (index === Object.values(country.languages).length - 1) {
-                                    return language;
-                                } else {
-                                    return language + ", ";
-                                }
-                            })}
-                            </p>
-                            : <p><span className="countryDetailLabel">Languages:</span> None</p>
-                        }
-                        <p><span className="countryDetailLabel">Population:</span> {(country.population || 0).toLocaleString()}</p>
-                        <p><span className="countryDetailLabel">Population Density:</span> {popDensity(country)} people/km<sup>2</sup></p>
-                        <p><span className="countryDetailLabel">Independent:</span> {country.independent ? 'Yes' : 'No'}</p>
-                        <p><span className="countryDetailLabel">UN Member:</span> {country.unMember ? 'Yes' : 'No'}</p>
-                        {country.currencies
-                            ? <p><span className='countryDetailLabel'>{Object.values(country.currencies).length > 1 ? 'Currencies: ' : 'Currency: '}</span>
-                                {Object.values(country.currencies).map((currency, index) => {
-                                    if (index === Object.values(country.currencies).length - 1) {
-                                        return currency.name;
+        <div className='row'>
+            <div className='col-12 col-md-6'>
+                <div className='countryDetailContent'>
+                    <h3>{country.name.common}</h3>
+                    {country.capital
+                        ? <p>
+                            <span className="countryDetailLabel">Capital{country.capital.length > 1 ? 's' : ''}:</span> {country.capital.length < 2 ? country.capital
+                                : country.capital.map((capital, index) => {
+                                    if (index === country.capital.length - 1) {
+                                        return capital;
                                     } else {
-                                        return currency.name + ", ";
+                                        return capital + ", ";
                                     }
                                 })}
-                            </p>
-                            : <p><span className='countryDetailLabel'>Currency:</span> None</p>}
-                    </div>
-                </div>
-                <div className='col-12 col-md-6'>
-                    <div className='countryDetailVisuals'>
-                        <div className='flag'>
-                            <p><span className="countryDetailLabel">Flag:</span></p>
-                            <img className="countryDetailFlag" src={country.flags.png} alt={country.name.common} />
-                        </div>
-                        <div className="coatOfArms">
-                            <p><span className="countryDetailLabel">Coat of Arms:</span></p>
-                            <img className='countryDetailCoatOfArms' src={country.coatOfArms.png} alt={country.name.common} />
-                        </div>
-                    </div>
+                        </p>
+                        : <p><span className="countryDetailLabel">Capital:</span>None</p>
+                    }
+                    <p><span className="countryDetailLabel">Coordinates:</span> {Math.abs(Number(country.latlng[0]).toFixed(2))}&deg;
+                        {Number(country.latlng[1]) > 0 ? 'N ' : 'S '}
+                        {Math.abs(Number(country.latlng[1]).toFixed(2))}&deg;
+                        {Number(country.latlng[0]) > 0 ? 'E' : 'W'}
+                    </p>
+                    <p><span className="countryDetailLabel">Continent{country.continents.length > 1 ? 's' : ''}:</span> {country.continents.map((continent, index) => {
+                        if (index === country.continents.length - 1) {
+                            return continent;
+                        } else {
+                            return continent + ", ";
+                        }
+                    })}</p>
+                    {country.borders
+                        ? <p><span className="countryDetailLabel">Borders:</span> {country.borders.map((border, index) => {
+                            if (index === country.borders.length - 1) {
+                                return border;
+                            } else {
+                                return border + ", ";
+                            }
+                        })}
+                        </p>
+                        : <p><span className="countryDetailLabel">Borders:</span> None</p>}
+                    <p><span className="countryDetailLabel">Area:</span> {(country.area || 0).toLocaleString()} km<sup>2</sup></p>
+                    {country.languages
+                        ? <p><span className="countryDetailLabel">Languages:</span> {Object.values(country.languages).map((language, index) => {
+                            if (index === Object.values(country.languages).length - 1) {
+                                return language;
+                            } else {
+                                return language + ", ";
+                            }
+                        })}
+                        </p>
+                        : <p><span className="countryDetailLabel">Languages:</span> None</p>
+                    }
+                    <p><span className="countryDetailLabel">Population:</span> {(country.population || 0).toLocaleString()}</p>
+                    <p><span className="countryDetailLabel">Population Density:</span> {popDensity(country)} people/km<sup>2</sup></p>
+                    <p><span className="countryDetailLabel">Independent:</span> {country.independent ? 'Yes' : 'No'}</p>
+                    <p><span className="countryDetailLabel">UN Member:</span> {country.unMember ? 'Yes' : 'No'}</p>
+                    {country.currencies
+                        ? <p><span className='countryDetailLabel'>{Object.values(country.currencies).length > 1 ? 'Currencies: ' : 'Currency: '}</span>
+                            {Object.values(country.currencies).map((currency, index) => {
+                                if (index === Object.values(country.currencies).length - 1) {
+                                    return currency.name;
+                                } else {
+                                    return currency.name + ", ";
+                                }
+                            })}
+                        </p>
+                        : <p><span className='countryDetailLabel'>Currency:</span> None</p>}
                 </div>
             </div>
-        </div>
-    )
-}
-
-const PopUpWindow = ({ content, handleClosePopUp}) => {
-    return (
-        <div className='overlay' onClick={handleClosePopUp}>
-            <div className='popUpWindow'>
-                <p><button onClick={handleClosePopUp} className='countryDetailBackButton'>&#8592;Back</button></p>
-                {content}
+            <div className='col-12 col-md-6'>
+                <div className='countryDetailVisuals'>
+                    <div className='flag'>
+                        <p><span className="countryDetailLabel">Flag:</span></p>
+                        <img className="countryDetailFlag" src={country.flags.png} alt={country.name.common} />
+                    </div>
+                    <div className="coatOfArms">
+                        <p><span className="countryDetailLabel">Coat of Arms:</span></p>
+                        <img className='countryDetailCoatOfArms' src={country.coatOfArms.png} alt={country.name.common} />
+                    </div>
+                </div>
             </div>
         </div>
     )

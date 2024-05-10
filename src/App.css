@@ -23,10 +23,7 @@ body {
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 1rem;
-  border-radius: 3px;
-  border-left: 3px solid #90AEAD;
   border-bottom: 1px solid #90AEAD;
-  border-right: 3px solid #90AEAD;
 }
 
 /* Navbar */
@@ -93,7 +90,7 @@ body {
 }
 
 .about-text a {
-  color: #FBE9D0;
+  color: #f7f4f1;
 }
 
 .about-text a:hover {
